@@ -1,8 +1,3 @@
-// const tracer = require("dd-trace").init({
-//   logInjection: true,
-// });
-// const tracer = require("dd-trace");
-// const formats = require("dd-trace/ext/formats");
 const express = require("express");
 const app = express();
 const { createLogger, format, transports } = require("winston");
@@ -16,20 +11,6 @@ const logger = createLogger({
     // new transports.File({ filename: `./shared-volume/logs/app.log` }),
   ],
 });
-
-// const originalConsoleLogger = console.log;
-// console.log = function (...args) {
-//   const level = "INFO";
-//   const span = tracer.scope().active();
-//   const time = new Date().toISOString();
-//   const record = { time, level, message: args.join(" ") };
-
-//   if (span) {
-//     tracer.inject(span.context(), formats.LOG, record);
-//   }
-
-//   originalConsoleLogger(JSON.stringify(record));
-// };
 
 // Allow all origins
 app.use((req, res, next) => {
@@ -49,14 +30,11 @@ app.use((req, res, next) => {
 
 app.get("/", (_, res) => {
   logger.info("Welcome!");
-  console.log("Welcome from console!");
   const shouldFail = Math.random() < 0.5; // 50% chance of error
 
   if (shouldFail) {
     logger.info("❌ Simulated error");
     const errMsg = "Simulated server error 💥";
-    // const span = tracer.scope().active();
-    // span.setTag("error.message", errMsg);
     return res.status(500).json({
       error: errMsg,
     });
@@ -66,20 +44,6 @@ app.get("/", (_, res) => {
   res
     .status(200)
     .json({ message: "Success! 🎉", timestamp: new Date().toISOString() });
-});
-
-app.get("/hello", (_, res) => {
-  logger.info("Hello!");
-  console.log("Hello from console!");
-  metricPrefix = "nodejs-cloudrun";
-  // Send three unique metrics, just so we're testing more than one single metric
-  // metricsToSend = ["sample_metric_1", "sample_metric_2", "sample_metric_3"];
-  // metricsToSend.forEach((metric) => {
-  //   for (let i = 0; i < 20; i++) {
-  //     tracer.dogstatsd.distribution(`${metricPrefix}.${metric}`, 1);
-  //   }
-  // });
-  res.status(200).json({ msg: "Sending metrics to Datadog" });
 });
 
 const port = process.env.PORT || 8080;

@@ -10,8 +10,4 @@ COPY . .
 
 EXPOSE 8080
 
-# ENV NODE_OPTIONS="--require dd-trace/init"
-
-# ENTRYPOINT ["/app/datadog-init"]
-
 ENTRYPOINT [ "node", "index.js" ]
