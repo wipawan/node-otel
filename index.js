@@ -2,15 +2,15 @@ require("./instrumentation");
 const express = require("express");
 const app = express();
 const { createLogger, format, transports } = require("winston");
+const {
+  OpenTelemetryTransportV3,
+} = require("@opentelemetry/winston-transport");
 
 const logger = createLogger({
   level: "info",
   exitOnError: false,
   format: format.json(),
-  transports: [
-    new transports.Console(),
-    // new transports.File({ filename: `./shared-volume/logs/app.log` }),
-  ],
+  transports: [new transports.Console(), new OpenTelemetryTransportV3()],
 });
 
 // Allow all origins
