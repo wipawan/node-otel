@@ -41,6 +41,10 @@ spec:
               value: "http://$(HOST_IP):$(OTLP_GRPC_PORT)"
             - name: OTEL_EXPORTER_OTLP_PROTOCOL
               value: "grpc"
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: "service.name=node-otel,deployment.environment.name=staging"
+            - name: OTEL_LOG_LEVEL
+              value: "debug"
 
 ---
 apiVersion: v1
