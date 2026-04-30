@@ -30,6 +30,17 @@ spec:
       containers:
         - name: server
           image: mmeeww/node-otel:eef8344a8d5944f1ab32529f307b921da5ba7498
+          env:
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: OTLP_GRPC_PORT
+              value: "4317"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://$(HOST_IP):$(OTLP_GRPC_PORT)"
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              value: "grpc"
 
 ---
 apiVersion: v1
