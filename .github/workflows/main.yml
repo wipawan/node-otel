@@ -52,11 +52,7 @@ jobs:
           location: ${{ secrets.GKE_ZONE }}
           project_id: ${{ secrets.GKE_PROJECT }}
 
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Deploy to GKE
         run: |
-          sed -i "s|image:.*|image: ${{ env.IMAGE }}:${{ github.sha }}|" deployment.yaml
-          kubectl apply -f deployment.yaml
+          kubectl set image deployment/node-otel server=${{ env.IMAGE }}:${{ github.sha }}
           kubectl rollout status deployment/node-otel
