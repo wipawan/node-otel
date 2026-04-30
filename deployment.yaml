@@ -29,12 +29,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: mmeeww/node-otel:7e979e766fda6ddef55a077b0458202bf6fb4bca
-          env:
-            - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: "http://datadog-agent.datadog.svc.cluster.local"
-            - name: OTEL_EXPORTER_OTLP_PROTOCOL
-              value: "grpc"
+          image: mmeeww/node-otel:eef8344a8d5944f1ab32529f307b921da5ba7498
 
 ---
 apiVersion: v1
