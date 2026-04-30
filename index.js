@@ -1,3 +1,4 @@
+require("./instrumentation");
 const express = require("express");
 const app = express();
 const { createLogger, format, transports } = require("winston");
@@ -18,7 +19,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization, traceparent, tracestate"
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization, traceparent, tracestate",
   );
 
   if (req.method === "OPTIONS") {

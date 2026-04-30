@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: node-otel
+  name: node-otel
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-otel
+  template:
+    metadata:
+      labels:
+        app: node-otel
+      # annotations:
+      # ad.datadoghq.com/server.logs: >-
+      #   [{
+      #     "source": "nodejs",
+      #     "service": node-otel",
+      #     "auto_multi_line_detection": true,
+      #     "log_processing_rules": [{
+      #       "type": "exclude_at_match",
+      #       "name": "exclude_flushing_logs",
+      #       "pattern" : "Flushing\\s+\\d+\\s+metrics\\s+via\\s+HTTP"
+      #     }]
+      #   }]
+    spec:
+      containers:
+        - name: server
+          image: mmeeww/node-otel:7e979e766fda6ddef55a077b0458202bf6fb4bca
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-otel
+spec:
+  selector:
+    app: node-otel
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
