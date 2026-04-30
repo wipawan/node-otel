@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 8080
 
-ENTRYPOINT [ "node", "index.js" ]
+ENTRYPOINT [ "node", "--import", "./instrumentation.js" ,"index.js" ]
