@@ -57,6 +57,4 @@ jobs:
 
       - name: Deploy to GKE
         run: |
-          sed -i "s|image:.*|image: ${{ env.IMAGE }}:${{ github.sha }}|" deployment.yaml
-          kubectl apply -f deployment.yaml
-          kubectl rollout status deployment/node-otel
+          kubectl set image deployment/node-otel server=${{ env.IMAGE }}:${{ github.sha }}
