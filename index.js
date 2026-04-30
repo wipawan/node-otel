@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const app = express();
 const { createLogger, format, transports } = require("winston");
@@ -47,5 +46,5 @@ app.get("/", (_, res) => {
     .json({ message: "Success! 🎉", timestamp: new Date().toISOString() });
 });
 
-const port = process.env.PORT || process.env.DEFAULT_PORT;
+const port = process.env.PORT || 8080;
 app.listen(port);
